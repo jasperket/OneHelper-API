@@ -146,20 +146,24 @@ namespace OneHelper.Migrations
 
             modelBuilder.Entity("OneHelper.Models.SleepLog", b =>
                 {
-                    b.HasOne("OneHelper.Models.User", null)
+                    b.HasOne("OneHelper.Models.User", "User")
                         .WithMany("SleepLogs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OneHelper.Models.ToDo", b =>
                 {
-                    b.HasOne("OneHelper.Models.User", null)
+                    b.HasOne("OneHelper.Models.User", "User")
                         .WithMany("Todos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OneHelper.Models.User", b =>

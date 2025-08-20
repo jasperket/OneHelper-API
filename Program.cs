@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OneHelper.Models;
+using OneHelper.Repository.Interfaces;
+using OneHelper.Repository.UserRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,3 +32,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
