@@ -1,0 +1,6 @@
+@OneHelper_HostAddress = http://localhost:5143
+
+GET {{OneHelper_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
