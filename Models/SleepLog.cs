@@ -10,5 +10,6 @@
         public required DateOnly StartDate { get; set; }
         public required DateOnly EndDate { get; set; }
         public required int UserId { get; set; }
+        public required User User { get; set; }
     }
 }

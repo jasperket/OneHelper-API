@@ -10,6 +10,7 @@
         public required int PriorityLevel { get; set; }
         public bool? IsCompleted { get; set; }
         public required int UserId { get; set; }
+        public required User User { get; set; }
 
     }
 }
