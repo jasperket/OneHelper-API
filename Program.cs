@@ -9,10 +9,12 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<OneHelperContext>( options =>
+builder.Services.AddDbContext<OneHelperContext>(options =>
 {
-    options.UseSqlServer("Server=FGT-08\\SQLEXPRESS03;Database=OneHelperDB;Trusted_Connection=True;TrustServerCertificate=True;");
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseSqlServer(connectionString);
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
