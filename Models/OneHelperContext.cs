@@ -44,6 +44,18 @@ namespace OneHelper.Models
                     Weight = Convert.ToDecimal(151.7),
                     Id = 2,
                 } );
+
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+            });
+
+            modelBuilder.Entity<SleepLog>( entity =>
+            {
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
+            });
+
+            modelBuilder.Entity<ToDo>(entity =>
+            {
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
             });
             base.OnModelCreating(modelBuilder);
         }

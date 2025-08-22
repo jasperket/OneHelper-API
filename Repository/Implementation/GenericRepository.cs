@@ -16,6 +16,7 @@ namespace OneHelper.Repository.UserRepository
         public async Task AddAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public void DeleteAsync(TEntity entity)
