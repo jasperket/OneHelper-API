@@ -482,3 +482,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Repomix for AI codebase asssistance
+repomix-output.xml
