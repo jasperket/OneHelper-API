@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<OneHelperContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
