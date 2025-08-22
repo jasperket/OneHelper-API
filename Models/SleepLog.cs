@@ -2,7 +2,7 @@
 {
     public class SleepLog
     {
-        public required int Id { get; set; }
+        public int Id { get; set; }
         public required TimeSpan Duration { get; set; }
         public required TimeSpan StartTime { get; set; }
         public required TimeSpan EndTime { get; set; }
