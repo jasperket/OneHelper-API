@@ -1,35 +1,41 @@
-﻿using OneHelper.Repository.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using OneHelper.Models;
+using OneHelper.Repository.Interfaces;
+using System.Threading.Tasks;
 
 namespace OneHelper.Repository.UserRepository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        public GenericRepository() { 
-            
+        readonly OneHelperContext _applicationDbContext;
+        readonly DbSet<TEntity> _dbSet;
+        public GenericRepository(OneHelperContext context) { 
+            _applicationDbContext = context;
+            _dbSet = context.Set<TEntity>();
         }
-        public Task AddAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
+            await _dbSet.AddAsync(entity);
         }
 
-        public TEntity GetAllAsync()
+        public void DeleteAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+             _dbSet.Remove(entity);
         }
 
-        public TEntity GetByIdAsync(int id)
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public async Task<TEntity?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FindAsync(id);
+        }
+
+        public async Task UpdateAsync(TEntity entity)
+        {
+            _applicationDbContext.Entry(entity).State = EntityState.Modified;
         }
     }
 }
