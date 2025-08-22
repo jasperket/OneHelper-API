@@ -25,6 +25,11 @@ namespace OneHelper.Models
                     .WithOne( b => b.User)
                     .HasForeignKey( b => b.UserId)
                     .IsRequired();
+                entity.HasData(new User { 
+                    DateOfBirth = DateOnly.MaxValue, 
+                    Email = "norwen@gmail.com", 
+                    FirstName = "Norwen", Gender="Male", Height = Convert.ToDecimal(1.71), LastName ="Penas",
+                    Password="12345678", PhoneNumber="0997", Username="wen", Weight = Convert.ToDecimal(151.7)});
             });
             base.OnModelCreating(modelBuilder);
         }
