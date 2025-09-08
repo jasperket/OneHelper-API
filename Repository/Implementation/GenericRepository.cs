@@ -18,10 +18,25 @@ namespace OneHelper.Repository.UserRepository
             await _dbSet.AddAsync(entity);
         }
 
-        public void DeleteAsync(TEntity entity)
+        public Task DeleteAsync(TEntity entity)
         {
-             _dbSet.Remove(entity);
+            _dbSet.Remove(entity);
+            return Task.CompletedTask;
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            if (entity is not null)
+            {
+                _dbSet.Remove(entity);
+            }
+            else
+            {
+                throw new Exception("User not found.....");
+            }
+        }
+
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
@@ -33,19 +48,23 @@ namespace OneHelper.Repository.UserRepository
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task UpdateAsync(TEntity entity)
+        public Task UpdateAsync(TEntity entity)
         {
             _applicationDbContext.Entry(entity).State = EntityState.Modified;
+            return Task.CompletedTask;
         }
 
-        public async Task UpdateByIdAsync(int id)
+        public async Task UpdateAsync(int id)
         {
             var entity = await _dbSet.FindAsync(id);
-            if ( entity is not null )
+            if (entity is not null)
             {
                 _applicationDbContext.Entry(entity).State = EntityState.Modified;
             }
-            throw new Exception("User not found...");
+            else
+            {
+                throw new Exception("User not found....");
+            }
         }
     }
 }

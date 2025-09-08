@@ -10,7 +10,7 @@ public class SleepLogService : ISleepLogService
 
     public SleepLogService(ISleepLogRepository sleepLogRepository)
     {
-        _sleepLogRepository = _sleepLogRepository;
+        _sleepLogRepository = sleepLogRepository;
     }
 
     public async Task<IEnumerable<SleepLog>> GetAllSleepLogAsync()
@@ -18,7 +18,7 @@ public class SleepLogService : ISleepLogService
         return await _sleepLogRepository.GetAllAsync();
     }
 
-    public async Task<SleepLog> GetSleepLogByIdAsync(int id)
+    public async Task<SleepLog?> GetSleepLogByIdAsync(int id)
     {
         return await _sleepLogRepository.GetByIdAsync(id);
     }
