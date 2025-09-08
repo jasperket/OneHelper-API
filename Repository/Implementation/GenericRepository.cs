@@ -16,12 +16,13 @@ namespace OneHelper.Repository.UserRepository
         public async Task AddAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(TEntity entity)
+        public async Task DeleteAsync(TEntity entity)
         {
             _dbSet.Remove(entity);
-            return Task.CompletedTask;
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -30,6 +31,7 @@ namespace OneHelper.Repository.UserRepository
             if (entity is not null)
             {
                 _dbSet.Remove(entity);
+                await _applicationDbContext.SaveChangesAsync();
             }
             else
             {
@@ -48,10 +50,10 @@ namespace OneHelper.Repository.UserRepository
             return await _dbSet.FindAsync(id);
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public async Task UpdateAsync(TEntity entity)
         {
             _applicationDbContext.Entry(entity).State = EntityState.Modified;
-            return Task.CompletedTask;
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(int id)
@@ -60,6 +62,7 @@ namespace OneHelper.Repository.UserRepository
             if (entity is not null)
             {
                 _applicationDbContext.Entry(entity).State = EntityState.Modified;
+                await _applicationDbContext.SaveChangesAsync();
             }
             else
             {
