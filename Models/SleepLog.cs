@@ -3,13 +3,13 @@
     public class SleepLog
     {
         public int Id { get; set; }
-        public required TimeSpan Duration { get; set; }
-        public required TimeSpan StartTime { get; set; }
-        public required TimeSpan EndTime { get; set; }
+        public TimeSpan Duration { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
         public string? Notes { get; set; } = string.Empty;
-        public required DateOnly StartDate { get; set; }
-        public required DateOnly EndDate { get; set; }
-        public required int UserId { get; set; }
-        public required User User { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly EndDate { get; set; }
+        public int UserId { get; set; }
+        public User? User { get; set; }
     }
 }
