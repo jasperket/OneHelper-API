@@ -1,9 +1,11 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using OneHelper.Mapper;
 using OneHelper.Models;
 using OneHelper.Repository.Interfaces;
 using OneHelper.Repository.UserRepository;
 using OneHelper.Services.ToDoService;
+using OneHelper.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +27,9 @@ builder.Services.AddScoped<ITodoRepository, ToDoRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISleepLogRepository, SleepLogRepository>();
 builder.Services.AddScoped<IToDoService, ToDoService>();
-
+builder.Services.AddValidatorsFromAssemblyContaining<ToDoDtoValidator>();
 builder.Services.AddAutoMapper(i => i.AddProfile<ToDoProfile>());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
