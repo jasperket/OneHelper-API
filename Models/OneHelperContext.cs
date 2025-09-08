@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OneHelper.Models;
+using OneHelper.Models.ModelConfig;
 namespace OneHelper.Models
 {
     public class OneHelperContext : DbContext
@@ -14,22 +15,25 @@ namespace OneHelper.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>().Configure();
+            modelBuilder.Entity<ToDo>().Configure();
+            modelBuilder.Entity<SleepLog>().Configure();
+
             modelBuilder.Entity<User>( entity =>
             {
-                entity.HasMany(e => e.SleepLogs)
-                    .WithOne(t => t.User)
-                    .HasForeignKey( t => t.UserId)
-                    .IsRequired();
-
-                entity.HasMany( b => b.Todos)
-                    .WithOne( b => b.User)
-                    .HasForeignKey( b => b.UserId)
-                    .IsRequired();
-                entity.HasData(new User { 
-                    DateOfBirth = DateOnly.MaxValue, 
-                    Email = "norwen@gmail.com", 
-                    FirstName = "Norwen", Gender="Male", Height = Convert.ToDecimal(1.71), LastName ="Penas",
-                    Password="12345678", PhoneNumber="0997", Username="wen", Weight = Convert.ToDecimal(151.7), Id=1,
+                entity.HasData(new User
+                {
+                    DateOfBirth = DateOnly.MaxValue,
+                    Email = "norwen@gmail.com",
+                    FirstName = "Norwen",
+                    Gender = "Male",
+                    Height = Convert.ToDecimal(1.71),
+                    LastName = "Penas",
+                    Password = "12345678",
+                    PhoneNumber = "0997",
+                    Username = "wen",
+                    Weight = Convert.ToDecimal(151.7),
+                    Id = 1
                 }, new User
                 {
                     DateOfBirth = DateOnly.MinValue,
@@ -42,8 +46,8 @@ namespace OneHelper.Models
                     PhoneNumber = "0997",
                     Username = "neth",
                     Weight = Convert.ToDecimal(151.7),
-                    Id = 2,
-                } );
+                    Id = 2
+                });
             });
             base.OnModelCreating(modelBuilder);
         }

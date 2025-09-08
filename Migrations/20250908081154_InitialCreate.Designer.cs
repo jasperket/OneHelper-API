@@ -12,7 +12,7 @@ using OneHelper.Models;
 namespace OneHelper.Migrations
 {
     [DbContext(typeof(OneHelperContext))]
-    [Migration("20250820015813_InitialCreate")]
+    [Migration("20250908081154_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,28 +33,25 @@ namespace OneHelper.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
 
-                    b.Property<DateOnly>("EndDate")
-                        .HasColumnType("date");
-
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("StartDate")
-                        .HasColumnType("date");
-
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -78,13 +75,18 @@ namespace OneHelper.Migrations
                     b.Property<bool?>("IsCompleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PriorityLevel")
-                        .HasColumnType("int");
+                    b.Property<byte>("PriorityLevel")
+                        .HasColumnType("tinyint");
 
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ToDoType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -92,6 +94,12 @@ namespace OneHelper.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -119,10 +127,12 @@ namespace OneHelper.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<decimal>("Height")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -130,39 +140,80 @@ namespace OneHelper.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Username")
+                        .IsUnique();
+
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateOfBirth = new DateOnly(9999, 12, 31),
+                            Email = "norwen@gmail.com",
+                            FirstName = "Norwen",
+                            Gender = "Male",
+                            Height = 1.71m,
+                            LastName = "Penas",
+                            Password = "12345678",
+                            PhoneNumber = "0997",
+                            Username = "wen",
+                            Weight = 151.7m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateOfBirth = new DateOnly(1, 1, 1),
+                            Email = "kenneth@gmail.com",
+                            FirstName = "kenneth",
+                            Gender = "Male",
+                            Height = 1.71m,
+                            LastName = "Amodia",
+                            Password = "12345678",
+                            PhoneNumber = "0997",
+                            Username = "neth",
+                            Weight = 151.7m
+                        });
                 });
 
             modelBuilder.Entity("OneHelper.Models.SleepLog", b =>
                 {
-                    b.HasOne("OneHelper.Models.User", null)
+                    b.HasOne("OneHelper.Models.User", "User")
                         .WithMany("SleepLogs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OneHelper.Models.ToDo", b =>
                 {
-                    b.HasOne("OneHelper.Models.User", null)
+                    b.HasOne("OneHelper.Models.User", "User")
                         .WithMany("Todos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OneHelper.Models.User", b =>

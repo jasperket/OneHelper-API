@@ -20,7 +20,12 @@ public class ToDoService : IToDoService
 
     public async Task<ToDo?> GetToDoByIdAsync(int id)
     {
-        return await _toDoRepository.GetByIdAsync(id);
+        var entity = await _toDoRepository.GetByIdAsync(id);
+        if ( entity is null )
+        {
+            throw new Exception("User not found....");
+        }
+        return entity;
     }
 
     public async Task AddToDoAsync(ToDo item)
