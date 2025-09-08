@@ -7,7 +7,19 @@ using OneHelper.Repository.UserRepository;
 using OneHelper.Services.ToDoService;
 using OneHelper.Validators;
 
+string ViteDevelopmentName = "Onehelper Frontend Development";
+string ViteDevelopmentOrigin = "http://localhost:5173";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: ViteDevelopmentName,
+                      policy =>
+                      {
+                          policy.WithOrigins(ViteDevelopmentOrigin);
+                      });
+});
 
 // Add services to the container.
 
@@ -41,6 +53,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(ViteDevelopmentName);
 
 app.UseAuthorization();
 
