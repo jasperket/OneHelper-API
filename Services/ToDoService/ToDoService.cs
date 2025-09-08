@@ -1,6 +1,9 @@
 using OneHelper.Repository.Interfaces;
 using OneHelper.Models;
 using OneHelper.Services.ToDoService;
+
+namespace OneHelper.Services.ToDoService;
+
 public class ToDoService : IToDoService
 {
     private readonly ITodoRepository _toDoRepository;
@@ -17,7 +20,7 @@ public class ToDoService : IToDoService
 
     public async Task<ToDo?> GetToDoByIdAsync(int id)
     {
-        return await _toDoRepository.GetByIdAsync(id) ;
+        return await _toDoRepository.GetByIdAsync(id);
     }
 
     public async Task AddToDoAsync(ToDo item)
