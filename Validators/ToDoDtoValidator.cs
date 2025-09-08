@@ -18,7 +18,7 @@ namespace OneHelper.Validators
                 .WithMessage("Start time is required");
             RuleFor(x => x.EndTime).NotEmpty()
                 .WithMessage("End time is required");
-            RuleFor(x => x.PriorityLevel).NotEmpty().InclusiveBetween(0, 3)
+            RuleFor(x => x.PriorityLevel).NotNull().InclusiveBetween(0, 3)
                 .WithMessage("Priority must be 0 to 3... priority is also required");
             RuleFor(x => x.UserId).NotEmpty()
                 .WithMessage("User id is required.... a to do must have a user");
