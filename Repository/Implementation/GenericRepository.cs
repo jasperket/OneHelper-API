@@ -37,5 +37,15 @@ namespace OneHelper.Repository.UserRepository
         {
             _applicationDbContext.Entry(entity).State = EntityState.Modified;
         }
+
+        public async Task UpdateByIdAsync(int id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            if ( entity is not null )
+            {
+                _applicationDbContext.Entry(entity).State = EntityState.Modified;
+            }
+            throw new Exception("User not found...");
+        }
     }
 }
