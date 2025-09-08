@@ -19,6 +19,10 @@ builder.Services.AddDbContext<OneHelperContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+builder.Services.AddScoped<ITodoRepository, ToDoRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ISleepLogRepository, SleepLogRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
