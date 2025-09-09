@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: ViteDevelopmentName,
                       policy =>
                       {
-                          policy.WithOrigins(ViteDevelopmentOrigin);
+                          policy.WithOrigins(ViteDevelopmentOrigin).AllowAnyHeader().AllowAnyMethod();
                       });
 });
 
