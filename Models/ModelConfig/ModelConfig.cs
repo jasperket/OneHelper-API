@@ -11,7 +11,7 @@ namespace OneHelper.Models.ModelConfig
             builder.HasIndex(x => x.Id).IsUnique();
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.Title).HasMaxLength(1000).IsRequired();
-            builder.HasIndex(x => x.Title).IsUnique();
+            builder.HasIndex(x => x.Title);
             builder.Property(x => x.StartTime).IsRequired();
             builder.Property(x => x.EndTime).IsRequired();
             builder.Property(x => x.PriorityLevel).HasColumnType("tinyint").IsRequired();
