@@ -25,11 +25,7 @@ public class ToDoService : IToDoService
     public async Task<ToDoResponse?> GetToDoByIdAsync(int id)
     {
         var entity = _mapper.Map<ToDoResponse>(await _toDoRepository.GetByIdAsync(id));
-        if ( entity is null )
-        {
-            throw new Exception("User not found....");
-        }
-        return entity;
+        return entity is null ? throw new Exception("User not found...") : entity;
     }
 
     public async Task AddToDoAsync(ToDoRequest item)
