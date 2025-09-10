@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OneHelper.Models;
 using OneHelper.Dto;
+using System.Security.Claims;
 
 namespace OneHelper.Mapper
 {

@@ -4,9 +4,11 @@ using OneHelper.Dto;
 using OneHelper.Services.ToDoService;
 using OneHelper.Models;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OneHelper.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ToDoController : ControllerBase
