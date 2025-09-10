@@ -4,6 +4,7 @@ using OneHelper.Mapper;
 using OneHelper.Models;
 using OneHelper.Repository.Interfaces;
 using OneHelper.Repository.UserRepository;
+using OneHelper.Services.SleepLogService;
 using OneHelper.Services.ToDoService;
 using OneHelper.Validators;
 
@@ -39,8 +40,13 @@ builder.Services.AddScoped<ITodoRepository, ToDoRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISleepLogRepository, SleepLogRepository>();
 builder.Services.AddScoped<IToDoService, ToDoService>();
+builder.Services.AddScoped<ISleepLogService, SleepLogService>();
 builder.Services.AddValidatorsFromAssemblyContaining<ToDoDtoValidator>();
-builder.Services.AddAutoMapper(i => i.AddProfile<ToDoProfile>());
+
+builder.Services.AddAutoMapper(i => { 
+    i.AddProfile<ToDoProfile>(); 
+    i.AddProfile<SleepLogProfile>(); 
+});
 
 var app = builder.Build();
 
