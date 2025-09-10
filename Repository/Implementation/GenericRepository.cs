@@ -48,12 +48,20 @@ namespace OneHelper.Repository.UserRepository
         public async Task<TEntity?> GetByIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
+            
         }
 
         public async Task UpdateAsync(TEntity entity)
         {
-            _applicationDbContext.Entry(entity).State = EntityState.Modified;
-            await _applicationDbContext.SaveChangesAsync();
+            try
+            {
+                _applicationDbContext.Entry(entity).State = EntityState.Modified;
+                await _applicationDbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new Exception("Update operation failed....");
+            }
         }
 
         public async Task UpdateAsync(int id)
