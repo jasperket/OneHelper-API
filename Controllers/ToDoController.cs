@@ -4,6 +4,7 @@ using OneHelper.Dto;
 using OneHelper.Services.ToDoService;
 using OneHelper.Models;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OneHelper.Controllers
 {
@@ -23,6 +24,7 @@ namespace OneHelper.Controllers
             _validator = validator;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddToDo([FromBody] ToDoRequest dto)
         {
@@ -42,6 +44,7 @@ namespace OneHelper.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateToDo(int id, [FromBody] ToDoRequest dto)
         {
@@ -61,6 +64,7 @@ namespace OneHelper.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteToDo(int id)
         {

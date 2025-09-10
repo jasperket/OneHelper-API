@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneHelper.Models;
 
@@ -11,9 +12,11 @@ using OneHelper.Models;
 namespace OneHelper.Migrations
 {
     [DbContext(typeof(OneHelperContext))]
-    partial class OneHelperContextModelSnapshot : ModelSnapshot
+    [Migration("20250910025759_AddedPrecision")]
+    partial class AddedPrecision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

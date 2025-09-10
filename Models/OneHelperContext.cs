@@ -1,24 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OneHelper.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OneHelper.Models.ModelConfig;
 namespace OneHelper.Models
 {
-    public class OneHelperContext : DbContext
+    public class OneHelperContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<SleepLog> SleepLogs { get; set; }
         public DbSet<ToDo> ToDos { get; set; }
 
-        public OneHelperContext(DbContextOptions options) : base(options) { 
+        public OneHelperContext(DbContextOptions<OneHelperContext> options) : base(options) { 
             
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().Configure();
             modelBuilder.Entity<ToDo>().Configure();
             modelBuilder.Entity<SleepLog>().Configure();
+            modelBuilder.Entity<User>().Configure();
+            base.OnModelCreating(modelBuilder);
 
+            /*
             modelBuilder.Entity<User>( entity =>
             {
                 entity.HasData(new User
@@ -49,7 +51,7 @@ namespace OneHelper.Models
                     Id = 2
                 });
             });
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); */
         }
     }
 }

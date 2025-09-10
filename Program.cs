@@ -6,6 +6,11 @@ using OneHelper.Repository.Interfaces;
 using OneHelper.Repository.UserRepository;
 using OneHelper.Services.ToDoService;
 using OneHelper.Validators;
+using Microsoft.AspNetCore.HttpOverrides;
+using OneHelper.Middleware;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 
 string ViteDevelopmentName = "Onehelper Frontend Development";
 string ViteDevelopmentOrigin = "http://localhost:5173";
@@ -40,9 +45,54 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISleepLogRepository, SleepLogRepository>();
 builder.Services.AddScoped<IToDoService, ToDoService>();
 builder.Services.AddValidatorsFromAssemblyContaining<ToDoDtoValidator>();
+
+
 builder.Services.AddAutoMapper(i => i.AddProfile<ToDoProfile>());
 
+builder.Services.AddIdentityCore<User>()
+    .AddEntityFrameworkStores<OneHelperContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(i =>
+{
+    i.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    i.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    i.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie(i =>
+{
+    i.Cookie.Name = "TestCookie";
+    i.Cookie.HttpOnly = true;
+    i.Cookie.SameSite = SameSiteMode.Strict;
+    i.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    i.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    i.SlidingExpiration = true;
+
+    i.Events = new CookieAuthenticationEvents
+    {
+        OnRedirectToLogin = context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            return Task.CompletedTask;
+        },
+        OnRedirectToAccessDenied = context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return Task.CompletedTask;
+        }
+    };
+});
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 var app = builder.Build();
+
+app.UseForwardedHeaders();
+app.UseMiddleware<HttpOnlyMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -55,7 +105,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(ViteDevelopmentName);
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

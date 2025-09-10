@@ -20,6 +20,7 @@ namespace OneHelper.Models.ModelConfig
 
         public static void Configure(this EntityTypeBuilder<User> builder)
         {
+            /*
             builder.HasKey(x => x.Id);
             builder.Property(i => i.Username).HasMaxLength(100).IsRequired();
             builder.HasIndex( x=> x.Username).IsUnique();
@@ -29,9 +30,10 @@ namespace OneHelper.Models.ModelConfig
             builder.Property(x => x.Email).IsRequired();
             builder.Property(x => x.FirstName).IsRequired();
             builder.Property(x => x.LastName).IsRequired();
+            */
             builder.Property(x => x.Height).HasPrecision(5, 2);
             builder.Property(x => x.Weight).HasPrecision(5, 2);
-            builder.Property(x => x.PhoneNumber).HasMaxLength(12);
+            /*builder.Property(x => x.PhoneNumber).HasMaxLength(12); */
         }
 
         public static void Configure(this EntityTypeBuilder<SleepLog> builder)
