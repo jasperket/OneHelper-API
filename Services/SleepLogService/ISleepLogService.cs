@@ -1,13 +1,14 @@
+using OneHelper.Dto;
 using OneHelper.Models;
 
 namespace OneHelper.Services.SleepLogService
 {
     public interface ISleepLogService
     {
-        public Task<IEnumerable<SleepLog>> GetAllSleepLogAsync();
-        public Task<SleepLog?> GetSleepLogByIdAsync(int id);
-        public Task AddSleepLogAsync(SleepLog item);
-        public Task UpdateSleepLogAsync(SleepLog item);
+        public Task<IEnumerable<SleepResponse>> GetAllSleepLogAsync();
+        public Task<SleepResponse?> GetSleepLogByIdAsync(int id);
+        public Task AddSleepLogAsync(SleepRequest item);
+        public Task UpdateSleepLogAsync(int id, SleepRequest item);
         public Task DeleteSleepLogAsync(int id);
     }
 }

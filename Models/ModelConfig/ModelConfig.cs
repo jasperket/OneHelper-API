@@ -21,6 +21,7 @@ namespace OneHelper.Models.ModelConfig
         public static void Configure(this EntityTypeBuilder<User> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(i => i.Username).HasMaxLength(100).IsRequired();
             builder.HasIndex( x=> x.Username).IsUnique();
             builder.Property(x => x.Password).HasMaxLength(1000).IsRequired();
@@ -38,11 +39,9 @@ namespace OneHelper.Models.ModelConfig
         {
             builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.Id).IsUnique();
-            builder.Property(x => x.Duration).IsRequired();
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.StartTime).IsRequired();
-            builder.Property(x => x.EndTime).IsRequired();
             builder.HasOne(x => x.User).WithMany(x => x.SleepLogs).HasForeignKey(x => x.UserId);
-
         }
     }
 }
