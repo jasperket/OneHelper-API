@@ -16,7 +16,6 @@ namespace OneHelper.Models
         public string LastName { get; set; } = string.Empty;
 
         public decimal Height { get; set; }  // this should be in meters
-
         public decimal Weight { get; set; }  // this should be in kg
         public string? PhoneNumber { get; set; }
 

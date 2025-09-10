@@ -12,14 +12,12 @@ namespace OneHelper.Controllers
     public class ToDoController : ControllerBase
     {
         private readonly IToDoService _toDoService;
-        private readonly IMapper _mapper;
         private readonly ILogger<ToDoController> _logger;
         private readonly IValidator<ToDoRequest> _validator;
         public ToDoController(IToDoService service, ILogger<ToDoController> logger, IMapper mapper, IValidator<ToDoRequest> validator)
         {
             _toDoService = service;
             _logger = logger;
-            _mapper = mapper;
             _validator = validator;
         }
 
@@ -31,9 +29,10 @@ namespace OneHelper.Controllers
                 var validationResult = await _validator.ValidateAsync(dto);
                 if (!validationResult.IsValid)
                 {
+                    _logger.LogInformation("Dto is invalid..... Adding operation cannot proceed");
                     return BadRequest(validationResult.Errors);
                 }
-                await _toDoService.AddToDoAsync(_mapper.Map<ToDo>(dto));
+                await _toDoService.AddToDoAsync(dto);
                 return Ok(dto);
             }
             catch (Exception ex)
@@ -50,9 +49,10 @@ namespace OneHelper.Controllers
                 var validationResult = await _validator.ValidateAsync(dto);
                 if ( !validationResult.IsValid )
                 {
+                    _logger.LogInformation("Dto is invalid..... Updating operation cannot proceed");
                     return BadRequest(validationResult.Errors);
                 }
-                await _toDoService.UpdateToDoAsync(_mapper.Map<ToDo>(dto));
+                await _toDoService.UpdateToDoAsync(id, dto);
                 return Ok(dto);
             }
             catch (Exception ex)
@@ -80,7 +80,7 @@ namespace OneHelper.Controllers
         {
             try
             {
-                return Ok(_mapper.Map<List<ToDoResponse>>(await _toDoService.GetAllToDosAsync()) ?? []);
+                return Ok(await _toDoService.GetAllToDosAsync() ?? []);
             }
             catch (Exception ex)
             {
@@ -94,11 +94,11 @@ namespace OneHelper.Controllers
             try
             {
                 var entity = await _toDoService.GetToDoByIdAsync(id);
-                return Ok(_mapper.Map<ToDoResponse>(entity));
+                return Ok(entity);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
     }
