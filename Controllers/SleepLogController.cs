@@ -6,6 +6,8 @@ using OneHelper.Models;
 using OneHelper.Services.SleepLogService;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 namespace OneHelper.Controllers
 {
@@ -86,11 +88,10 @@ namespace OneHelper.Controllers
         {
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (userId is not null) Debug.Write($"{userId}");
+                var userId = await Task.Run(() => User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var validation = await _validator.ValidateAsync(dto);
-                if (!validation.IsValid) return BadRequest(validation.Errors);
-                await _sleepService.AddSleepLogAsync(dto);
+                if (!validation.IsValid || userId is null) return BadRequest(validation.Errors);
+                await _sleepService.AddSleepLogAsync(dto, Convert.ToInt32(userId));
                 return Ok(dto);
             }
             catch (Exception ex)
