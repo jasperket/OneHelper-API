@@ -4,7 +4,7 @@ namespace OneHelper.Models
 {
     public class ToDo : Entity
     {
-        public int Id { get; set; }
+        public override int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string? Description { get; set; } = string.Empty;
         public string ToDoType { get; set; } = string.Empty;
