@@ -17,9 +17,9 @@ public class ToDoService : IToDoService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ToDoResponse>> GetAllToDosAsync()
+    public async Task<IEnumerable<ToDoResponse>> GetAllToDosAsync(int userId)
     {
-        return _mapper.Map<IEnumerable<ToDoResponse>>(await _toDoRepository.GetAllAsync());
+        return _mapper.Map<IEnumerable<ToDoResponse>>(await _toDoRepository.GetAllAsync(userId));
     }
 
     public async Task<ToDoResponse?> GetToDoByIdAsync(int id)

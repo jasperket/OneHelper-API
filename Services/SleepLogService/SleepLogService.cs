@@ -17,9 +17,9 @@ public class SleepLogService : ISleepLogService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<SleepResponse>> GetAllSleepLogAsync()
+    public async Task<IEnumerable<SleepResponse>> GetAllSleepLogAsync(int userId)
     {
-        return _mapper.Map<IEnumerable<SleepResponse>>(await _sleepLogRepository.GetAllAsync()) ?? throw new Exception("Sleep log list is null");
+        return _mapper.Map<IEnumerable<SleepResponse>>(await _sleepLogRepository.GetAllAsync(userId) ?? throw new Exception("Sleep log list is null"));
     }
 
     public async Task<SleepResponse?> GetSleepLogByIdAsync(int id)

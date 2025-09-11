@@ -6,7 +6,7 @@ namespace OneHelper.Services.ToDoService
     public interface IToDoService
     {
 
-        public Task<IEnumerable<ToDoResponse>> GetAllToDosAsync();
+        public Task<IEnumerable<ToDoResponse>> GetAllToDosAsync(int userId);
 
         public Task<ToDoResponse?> GetToDoByIdAsync(int id);
 

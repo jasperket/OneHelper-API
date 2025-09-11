@@ -2,7 +2,7 @@
 
 namespace OneHelper.Models
 {
-    public class ToDo
+    public class ToDo : Entity
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;

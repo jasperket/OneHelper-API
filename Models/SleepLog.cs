@@ -1,6 +1,6 @@
 ﻿namespace OneHelper.Models
 {
-    public class SleepLog
+    public class SleepLog : Entity
     {
         public int Id { get; set; }
         public DateTime StartTime { get; set; }

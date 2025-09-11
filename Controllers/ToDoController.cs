@@ -81,7 +81,8 @@ namespace OneHelper.Controllers
         {
             try
             {
-                return Ok(await _toDoService.GetAllToDosAsync() ?? []);
+                var claimId = await Task.Run(() => User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return Ok(await _toDoService.GetAllToDosAsync(Convert.ToInt32(claimId ?? throw new Exception("claimId not found"))));
             }
             catch (Exception ex)
             {

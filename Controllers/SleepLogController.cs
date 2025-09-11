@@ -27,7 +27,8 @@ namespace OneHelper.Controllers
         {
             try
             {
-                return Ok(await _sleepService.GetAllSleepLogAsync());
+                var claimId = await Task.Run(() => User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return Ok(await _sleepService.GetAllSleepLogAsync(Convert.ToInt32(claimId ?? throw new Exception("Claim Id not found"))));
             }
             catch ( Exception ex )
             {

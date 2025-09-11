@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OneHelper.Models;
 using OneHelper.Repository.Interfaces;
-
+/*
 namespace OneHelper.Controllers
 {
+    
     [Route("OneHelper/[controller]")]
     public class UserController : ControllerBase
     {
@@ -32,3 +33,4 @@ namespace OneHelper.Controllers
         }
     }
 }
+    */

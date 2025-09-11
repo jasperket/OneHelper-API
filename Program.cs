@@ -60,7 +60,6 @@ builder.Services.AddSwaggerGen( c =>
     });
 });
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<OneHelperContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -68,7 +67,6 @@ builder.Services.AddDbContext<OneHelperContext>(options =>
 });
 
 builder.Services.AddScoped<ITodoRepository, ToDoRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ISleepLogRepository, SleepLogRepository>();
 builder.Services.AddScoped<IToDoService, ToDoService>();
 builder.Services.AddScoped<ISleepLogService, SleepLogService>();

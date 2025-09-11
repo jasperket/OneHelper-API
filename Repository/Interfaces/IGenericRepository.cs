@@ -3,7 +3,7 @@
     public interface IGenericRepository<TEntity>
     {
         Task AddAsync(TEntity entity);
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> GetAllAsync(int userId);
         Task<TEntity?> GetByIdAsync(int id);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
