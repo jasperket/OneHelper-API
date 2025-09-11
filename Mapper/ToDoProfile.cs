@@ -10,6 +10,8 @@ namespace OneHelper.Mapper
             CreateMap<ToDoRequest, ToDo>();
             CreateMap<ToDoResponse, ToDo>();
             CreateMap<ToDo, ToDoResponse>();
+            CreateMap<ToDoRequest, ValidatedToDoDto>();
+            CreateMap<ValidatedToDoDto, ToDo>();
         }
     }
 }

@@ -32,9 +32,11 @@ public class ToDoService : IToDoService
         return entity;
     }
 
-    public async Task AddToDoAsync(ToDoRequest item)
+    public async Task AddToDoAsync(ToDoRequest item, int userId)
     {
-        await _toDoRepository.AddAsync(_mapper.Map<ToDo>(item));
+        var validatedDto = _mapper.Map<ValidatedToDoDto>(item);
+        var moveDtoWithId = validatedDto with { UserId = userId };
+        await _toDoRepository.AddAsync(_mapper.Map<ToDo>(moveDtoWithId));
     }
     
     public async Task UpdateToDoAsync(int id, ToDoRequest item)

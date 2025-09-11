@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneHelper.Models;
 
@@ -11,9 +12,11 @@ using OneHelper.Models;
 namespace OneHelper.Migrations
 {
     [DbContext(typeof(OneHelperContext))]
-    partial class OneHelperContextModelSnapshot : ModelSnapshot
+    [Migration("20250910073108_IdentityIntegration")]
+    partial class IdentityIntegration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,6 +255,7 @@ namespace OneHelper.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -264,7 +268,8 @@ namespace OneHelper.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<decimal>("Height")
                         .HasPrecision(5, 2)
@@ -292,7 +297,8 @@ namespace OneHelper.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -322,6 +328,44 @@ namespace OneHelper.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a542c1c4-d03c-4672-bb79-662d58ed110a",
+                            DateOfBirth = new DateOnly(9999, 12, 31),
+                            Email = "norwen@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Norwen",
+                            Gender = "Male",
+                            Height = 1.71m,
+                            LastName = "Penas",
+                            LockoutEnabled = false,
+                            PhoneNumber = "0997",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            Weight = 151.7m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ad6e2e86-3d65-4b42-a819-17a7d5da1674",
+                            DateOfBirth = new DateOnly(1, 1, 1),
+                            Email = "kenneth@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "kenneth",
+                            Gender = "Male",
+                            Height = 1.71m,
+                            LastName = "Amodia",
+                            LockoutEnabled = false,
+                            PhoneNumber = "0997",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            Weight = 151.7m
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

@@ -10,7 +10,7 @@ namespace OneHelper.Services.ToDoService
 
         public Task<ToDoResponse?> GetToDoByIdAsync(int id);
 
-        public Task AddToDoAsync(ToDoRequest item);
+        public Task AddToDoAsync(ToDoRequest item, int userId);
         public Task UpdateToDoAsync(int id,ToDoRequest item);
         public Task DeleteToDoAsync(int id);
     }

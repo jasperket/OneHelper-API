@@ -27,9 +27,12 @@ public class SleepLogService : ISleepLogService
         return _mapper.Map<SleepResponse>(await _sleepLogRepository.GetByIdAsync(id)) ?? throw new Exception("Sleep log not found");
     }
 
-    public async Task AddSleepLogAsync(SleepRequest item)
+    public async Task AddSleepLogAsync(SleepRequest item, int id)
     {
-        await _sleepLogRepository.AddAsync(_mapper.Map<SleepLog>(item));
+        // convert SleepRequest to ValidateSleepLog record to SleepLog model
+        var mapToValidated = _mapper.Map<ValidatedSleepLog>(item);
+        var shallowCopy = mapToValidated with { UserId = id };
+        await _sleepLogRepository.AddAsync(_mapper.Map<SleepLog>(shallowCopy));
     }
 
     public async Task UpdateSleepLogAsync(int id, SleepRequest item)

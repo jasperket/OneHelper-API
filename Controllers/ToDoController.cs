@@ -4,9 +4,12 @@ using OneHelper.Dto;
 using OneHelper.Services.ToDoService;
 using OneHelper.Models;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace OneHelper.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ToDoController : ControllerBase
@@ -22,17 +25,15 @@ namespace OneHelper.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToDo([FromBody] ToDoRequest dto)
+        public async Task<IActionResult> AddToDo(ToDoRequest dto)
         {
             try
             {
                 var validationResult = await _validator.ValidateAsync(dto);
-                if (!validationResult.IsValid)
-                {
-                    _logger.LogInformation("Dto is invalid..... Adding operation cannot proceed");
-                    return BadRequest(validationResult.Errors);
-                }
-                await _toDoService.AddToDoAsync(dto);
+                var userId = await Task.Run(() => User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (!validationResult.IsValid || userId is null) return BadRequest(validationResult.Errors);
+               
+                await _toDoService.AddToDoAsync(dto, Convert.ToInt32(userId));
                 return Ok(dto);
             }
             catch (Exception ex)
