@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OneHelper.Repository.UserRepository
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : Entity
     {
         readonly OneHelperContext _applicationDbContext;
         readonly DbSet<TEntity> _dbSet;
@@ -40,9 +40,9 @@ namespace OneHelper.Repository.UserRepository
         }
 
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(int userId)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Where(i => i.Id == userId ).ToListAsync();
         }
 
         public async Task<TEntity?> GetByIdAsync(int id)

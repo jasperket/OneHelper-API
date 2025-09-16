@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OneHelper.Models;
 using OneHelper.Models.ModelConfig;
 namespace OneHelper.Models
 {
-    public class OneHelperContext : DbContext
+    public class OneHelperContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<SleepLog> SleepLogs { get; set; }
         public DbSet<ToDo> ToDos { get; set; }
 
@@ -19,7 +20,7 @@ namespace OneHelper.Models
             modelBuilder.Entity<ToDo>().Configure();
             modelBuilder.Entity<SleepLog>().Configure();
 
-            modelBuilder.Entity<User>( entity =>
+            /*modelBuilder.Entity<User>( entity =>
             {
                 entity.HasData(new User
                 {
@@ -29,9 +30,7 @@ namespace OneHelper.Models
                     Gender = "Male",
                     Height = Convert.ToDecimal(1.71),
                     LastName = "Penas",
-                    Password = "12345678",
                     PhoneNumber = "0997",
-                    Username = "wen",
                     Weight = Convert.ToDecimal(151.7),
                     Id = 1
                 }, new User
@@ -42,13 +41,11 @@ namespace OneHelper.Models
                     Gender = "Male",
                     Height = Convert.ToDecimal(1.71),
                     LastName = "Amodia",
-                    Password = "12345678",
                     PhoneNumber = "0997",
-                    Username = "neth",
                     Weight = Convert.ToDecimal(151.7),
                     Id = 2
                 });
-            });
+            }); */
             base.OnModelCreating(modelBuilder);
         }
     }
