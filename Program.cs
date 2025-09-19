@@ -12,8 +12,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using OneHelper.Services.AuthService;
 using Microsoft.OpenApi.Models;
+using OneHelper.Authorization.AccountService;
+using OneHelper.Authorization.GoogleService;
+using Microsoft.AspNetCore.Authentication.Google;
+using OneHelper.Authorization.Interface;
+using Microsoft.AspNetCore.Authentication;
+using OneHelper.Dto;
+using OneHelper.Services.TokenService;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 string ViteDevelopmentName = "Onehelper Frontend Development";
 string ViteDevelopmentOrigin = "http://localhost:5173";
@@ -70,23 +77,29 @@ builder.Services.AddScoped<ITodoRepository, ToDoRepository>();
 builder.Services.AddScoped<ISleepLogRepository, SleepLogRepository>();
 builder.Services.AddScoped<IToDoService, ToDoService>();
 builder.Services.AddScoped<ISleepLogService, SleepLogService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
+//builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+//builder.Services.AddScoped<IAuthService<AuthenticateResult, ExternalLoginInfo>, GoogleAuthService>();
+builder.Services.AddScoped<IAuthService<LoginDto, RegisterDto>, AccountService>();
 builder.Services.AddValidatorsFromAssemblyContaining<ToDoDtoValidator>();
 
 builder.Services.AddIdentityCore<User>( i =>
 {
     i.User.RequireUniqueEmail = true;
     i.Password.RequireNonAlphanumeric = false;
-})
+})  
+    .AddSignInManager<SignInManager<User>>()
     .AddEntityFrameworkStores<OneHelperContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+    options.DefaultAuthenticateScheme =
+    options.DefaultChallengeScheme =
+    options.DefaultScheme = GoogleDefaults.AuthenticationScheme;
+}).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie("Identity.External")
+    .AddJwtBearer(options =>
 {
     var secret = builder.Configuration["JwtConfig:Secret"];
     var issuer = builder.Configuration["JwtConfig:ValidIssuer"];
@@ -107,6 +120,13 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
     };
 
+})
+.AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.CallbackPath = "/signin-google";
 });
 
 builder.Services.AddAutoMapper(i => { 
